@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>TodoApp</title>
+  </head>
+  <body>
+    <h1>TodoList</h1>
+    <p>※日付を入力しないとエラーになります。</p>
+    <p>※更新する場合も、日付を入れてください。</p>
+
+    <h3>マイタスク</h3>
+    <form method="post" th:action="@{/update}" th:each="todo : ${todos}" >
+      <!-- 完了のチェックボックスにチェックがついている時に、valueの値(1)を返します。 -->
+      <input type="checkbox"name="done_flg" value="1"/>
+      <input type="hidden" name="id" th:value="${todo.id}" />
+      <input type="text" name="title"th:value="${todo.title}" />
+      <input type="date" name="time_limit"th:value="${todo.time_limit}" />
+      <input type="submit" value="更新" />
+    </form>
+
+    <h3>完了済み</h3>
+    <form method="post" th:action="@{/update}" th:each="todo : ${doneTodos}" >
+      <input type="checkbox"name="done_flg" value="1"/>
+      <input type="hidden" name="id" th:value="${todo.id}" />
+      <input type="text" name="title"th:value="${todo.title}" style="text-decoration:line-through"/>
+      <input type="date" name="time_limit"th:value="${todo.time_limit}" />
+      <input type="submit" value="更新" />
+    </form>
+
+    <!-- 追加ボタン(submit)を押すと、コントローラの/addが実行されます。-->
+    <h3>新しいタスクを追加</h3>
+    <form method="post" th:action="@{/add}">
+      <input type="text" name="title" />
+      <input type="date" name="time_limit"/>
+      <input type="submit" value="追加" />
+    </form>
+
+    <!-- 完了済みを削除ボタン(submit)を押すと、コントローラの/deleteが実行されます。-->
+    <form method="post" th:action="@{/delete}">
+      <input type="submit" value="完了済みを削除" />
+    </form>
+  </body>
+</html>
